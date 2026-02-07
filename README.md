@@ -14,7 +14,7 @@ info for starter!
 * **ASCII Art Studio**: Create and save your own ASCII images directly within the OS using the `createimage` tool.
 * **App Installer**: A simulation of software deployment that manages `.vapp` files in a dedicated system folder.
 * **Enhanced Commands**: Improved versions of standard tools like `ls` and `delete` with directory awareness and icons.
-
+* **new kernel**: os has new kernel 2.xx, which adds new features like: better file managing, boot screen and art studio!
 ## 🛠 Command List
 - `ls` / `tree` — Navigate and visualize the file system.
 - `createfolder` — Create new directories (supports nested paths).
