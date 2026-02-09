@@ -30,8 +30,10 @@ info for starter!
 4. Enjoy the Gold Edition experience!
 
 ## 👤 Author
-Developed by **Yaroslav Kosach(12 year old)**.  
-and mainly vund OS team!
+## 👑 Created By
+**Yaroslav Kosach** (The Coding God)
+**Vund OS team**(best emploees of our project)
+> "Vund OS is not just code; it's a statement. Written on a mechanical keyboard, built for the future."
 ---
 *This project is licensed under the MIT License - see the LICENSE file for details.*
 
