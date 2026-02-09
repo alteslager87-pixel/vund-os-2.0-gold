@@ -1,4 +1,4 @@
-# vund-os-2.0-gold
+# vund-os-2.0-gold![Vund OS Developer](https://img.shields.io/badge/Vund_OS-Gold_Edition-gold?style=for-the-the-badge&logo=python&logoColor=white)
 **Vund-OS** is a stylish, lightweight console-based operating system built with Python. It combines retro-tech aesthetics with a modern hierarchical file system.
 
 for now, its last CLI based OS, written on python! full release will be on 08 february 2026!
@@ -31,7 +31,8 @@ info for starter!
 
 ## 👤 Author
 ## 👑 Created By
-**Yaroslav Kosach** (The Coding God)
+**Yaroslav Kosach** (The Coding God)!![Lead Architect](https://img.shields.io/badge/Architect-Yaroslav_Kosach-blue?style=for-the-badge) ![Status](https://img.shields.io/badge/Status-Coding_God-red?style=for-the-badge)
+
 **Vund OS team**(best emploees of our project)
 > "Vund OS is not just code; it's a statement. Written on a mechanical keyboard, built for the future."
 ---
