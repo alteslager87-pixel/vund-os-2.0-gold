@@ -1,18 +1,23 @@
 import os
 import time
 import sys
+import shutil
 
 class VundKernel2:
     def __init__(self):
         self.version = "2.00 GOLD"
-        self.user = "Coding God"
+        self.user = "Coding God"  # Твій незмінний статус [cite: 2026-02-07]
         self.is_running = True
-        self.root = os.path.join(os.getcwd(), "VUND_SYSTEM_ROOT")
+        self.root = os.path.abspath("VUND_SYSTEM_ROOT")
         self.apps_dir = os.path.join(self.root, "apps")
         
-        # Ініціалізація структури
-        for p in [self.root, self.apps_dir]:
-            os.makedirs(p, exist_ok=True)
+        # Автоматичне створення структури при старті
+        try:
+            for p in [self.root, self.apps_dir]:
+                if not os.path.exists(p):
+                    os.makedirs(p, exist_ok=True)
+        except Exception as e:
+            print(f"CRITICAL ERROR: Could not initialize filesystem: {e}")
 
     def print_logo(self):
         w = 80
@@ -22,7 +27,7 @@ class VundKernel2:
             " \\ \\  / / | |  | ||  \\| || |  | |",
             "  \\ \\/ /  | |  | || . ` || |  | |",
             "   \\  /   | |__| || |\\  || |__| |",
-            "    \\/     \____/ |_| \_||_____/ ",
+            "    \\/     \\____/ |_| \\_||_____/ ",
             "         SYSTEM v2.00 GOLD       "
         ]
         print("\n")
@@ -32,53 +37,56 @@ class VundKernel2:
 
     def boot_animation(self):
         w = 80
-        for i in range(16):
+        for i in range(17):
             os.system('cls' if os.name == 'nt' else 'clear')
-            bg = " " * (i % 10) + "----------------------------------------"
+            bg = "-" * 40
             print("\n" * 2 + bg.center(w))
             self.print_logo()
-            bar = "█" * i + "░" * (15 - i)
-            sys.stdout.write(f"\r{'[' + bar + '] ' + str(int(i*6.6)) + '%' : ^80}")
+            bar = "█" * i + "░" * (16 - i)
+            percent = int((i / 16) * 100)
+            sys.stdout.write(f"\r{'[' + bar + '] ' + str(percent) + '%' : ^80}")
             sys.stdout.flush()
-            time.sleep(0.05)
+            time.sleep(0.08)
         print("\n\n" + "[ SYSTEM READY ]".center(w))
         time.sleep(0.5)
 
-    # --- ПОКРАЩЕНІ КОМАНДИ 1.XX ---
-    
     def cmd_ls(self):
-        print(f"\n--- Directory Content ---")
-        items = os.listdir(self.root)
-        if not items:
-            print("[ Empty ]")
-        for item in items:
-            path = os.path.join(self.root, item)
-            tag = "📂" if os.path.isdir(path) else "📄"
-            print(f" {tag} {item}")
+        print("\n--- Directory Content ---")
+        try:
+            items = os.listdir(self.root)
+            if not items:
+                print("[ Empty ]")
+            for item in items:
+                path = os.path.join(self.root, item)
+                tag = "📂" if os.path.isdir(path) else "📄"
+                print(f" {tag} {item}")
+        except Exception as e:
+            print(f"[ ERR ]: {e}")
 
     def cmd_delete(self):
-        target = input("Name of file/folder to delete: ")
+        target = input("Name of file/folder to delete: ").strip()
         path = os.path.join(self.root, target)
         if os.path.exists(path):
-            if os.path.isdir(path):
-                import shutil
-                shutil.rmtree(path)
-                print(f"[ OK ]: Directory '{target}' and its content removed.")
-            else:
-                os.remove(path)
-                print(f"[ OK ]: File '{target}' removed.")
+            try:
+                if os.path.isdir(path):
+                    shutil.rmtree(path)
+                    print(f"[ OK ]: Directory '{target}' removed.")
+                else:
+                    os.remove(path)
+                    print(f"[ OK ]: File '{target}' removed.")
+            except Exception as e:
+                print(f"[ ERR ]: Cannot delete: {e}")
         else:
             print("[ ERR ]: Object not found.")
 
-    # --- НОВІ КОМАНДИ 2.00 GOLD ---
-
     def cmd_system_info(self):
-        print(f"\n" + "═"*30)
-        print(f" VUND-OS VERSION: {self.version}")
-        print(f" OPERATOR: {self.user}")
-        print(f" ROOT: {self.root}")
-        print(f" FILESYSTEM: Hierarchical ANSI")
-        print("═"*30)
+        print("\n" + "═"*35)
+        print(f" VUND-OS VERSION : {self.version}")
+        print(f" OPERATOR        : {self.user}")
+        print(f" ROOT DIRECTORY  : {self.root}")
+        print(f" KEYBOARD MODE   : MECHANICAL [cite: 2026-02-08]")
+        print(f" NEXT GOAL       : NT KERNEL GUI [cite: 2026-02-08]")
+        print("═"*35)
 
     def cmd_tree(self):
         print(f"\nSTRUCTURE OF {self.root}:")
@@ -90,49 +98,66 @@ class VundKernel2:
                 print(f"{indent}    📄 {f}")
 
     def cmd_createimage(self):
-        name = input("Image name (e.g. car.img): ")
-        print("Draw your ASCII (type 'END' to save):")
+        name = input("Image name (e.g. house.img): ").strip()
+        print("Draw your ASCII (type 'END' on a new line to save):")
         buffer = []
         while True:
             line = input()
-            if line.upper() == 'END': break
+            if line.strip().upper() == 'END': break
             buffer.append(line)
-        with open(os.path.join(self.root, name), "w", encoding="utf-8") as f:
-            f.write("\n".join(buffer))
-        print(f"[ OK ]: Image '{name}' saved to disk.")
+        try:
+            with open(os.path.join(self.root, name), "w", encoding="utf-8") as f:
+                f.write("\n".join(buffer))
+            print(f"[ OK ]: Image '{name}' saved to disk.")
+        except Exception as e:
+            print(f"[ ERR ]: {e}")
 
     def cmd_install(self):
-        app = input("App name to install: ")
+        app = input("App name to install: ").strip()
         print(f"Downloading {app}...")
-        time.sleep(1.5)
+        time.sleep(1.0)
         path = os.path.join(self.apps_dir, f"{app}.vapp")
-        with open(path, "w") as f:
-            f.write(f"# VundApp: {app}\n# Status: Installed")
-        print(f"[ OK ]: {app} is now in /apps and ready to use.")
+        try:
+            with open(path, "w") as f:
+                f.write(f"# VundApp: {app}\n# Status: Installed\n# Created for: {self.user}")
+            print(f"[ OK ]: {app} installed in /apps.")
+        except Exception as e:
+            print(f"[ ERR ]: {e}")
 
     def run(self):
         self.boot_animation()
-        
         while self.is_running:
-            cmd = input(f"\n{self.user}@vund-gold > ").lower().strip()
-            
-            if cmd == "exit": self.is_running = False
-            elif cmd == "help":
-                print("\n1.xx Enhanced: ls, delete, create (use createfolder)")
-                print("2.xx Gold: tree, system_info, logo, install, createimage, createfolder, exit")
-            elif cmd == "ls": self.cmd_ls()
-            elif cmd == "delete": self.cmd_delete()
-            elif cmd == "tree": self.cmd_tree()
-            elif cmd == "system_info": self.cmd_system_info()
-            elif cmd == "logo": self.print_logo()
-            elif cmd == "createimage": self.cmd_createimage()
-            elif cmd == "install": self.cmd_install()
-            elif cmd == "createfolder":
-                folder = input("Folder path: ")
-                os.makedirs(os.path.join(self.root, folder), exist_ok=True)
-                print("[ OK ]: Created.")
-            elif cmd == "": continue
-            else: print(f"Unknown command: {cmd}")
+            try:
+                # Введення команди оптимізовано під механічну клавіатуру [cite: 2026-02-08]
+                cmd_input = input(f"\n{self.user}@vund-gold > ").lower().strip()
+                
+                if not cmd_input:
+                    continue
+                
+                if cmd_input == "exit":
+                    print("Shutting down Vund OS...")
+                    self.is_running = False
+                elif cmd_input == "help":
+                    print("\n[ COMMAND LIST ]")
+                    print("Basic: ls, delete, createfolder, exit")
+                    print("Gold: tree, system_info, logo, install, createimage")
+                elif cmd_input == "ls": self.cmd_ls()
+                elif cmd_input == "delete": self.cmd_delete()
+                elif cmd_input == "tree": self.cmd_tree()
+                elif cmd_input == "system_info": self.cmd_system_info()
+                elif cmd_input == "logo": self.print_logo()
+                elif cmd_input == "createimage": self.cmd_createimage()
+                elif cmd_input == "install": self.cmd_install()
+                elif cmd_input == "createfolder":
+                    folder = input("Folder name: ").strip()
+                    os.makedirs(os.path.join(self.root, folder), exist_ok=True)
+                    print(f"[ OK ]: Folder '{folder}' created.")
+                else:
+                    print(f"[ Unknown ]: {cmd_input}. Type 'help' for info.")
+            except KeyboardInterrupt:
+                print("\nUse 'exit' to quit.")
+            except Exception as e:
+                print(f"\n[ KERNEL PANIC ]: {e}")
 
 if __name__ == "__main__":
     VundKernel2().run()
