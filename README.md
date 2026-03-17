@@ -8,6 +8,7 @@ OS has its own data storage, and we are featuring a custom ANSI Boot Screen for 
 start password is 123654!
 and mainly, enjoy our project!
 info for starter!
+this project is old and outdated, it is still here, because it is an peace of history. I have made a new thing, thanks to the two guys who watched the repository! Now, i made os so, that it can boot from everything,and now, it is an DOS, which can be your real OS and not an app!
 ## ✨ Key Features
 * **Hierarchical File System**: Full support for folders and nested directories.
 * **Visual Tree Structure**: A built-in `tree` command to visualize your system's architecture (MS-DOS style).
